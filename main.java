@@ -9,11 +9,14 @@ public class main {
         Deck deck = new Deck();
         deck.shuffleCards();
         Player player1 = new Player();
+        Bot bot = new Bot();
         Dealer dealer = new Dealer();
         //player 1 gets cards then dealer
 
         player1.getCard(deck.drawCard());
         player1.getCard(deck.drawCard());
+        bot.getCard(deck.drawCard());
+        bot.getCard(deck.drawCard());
         dealer.getCard(deck.drawCard());
 
 
@@ -33,6 +36,27 @@ public class main {
                 System.out.println(player1.getCard(deck.drawCard()));
             }
             else if (input.equals("Stand")){
+                showdown = true;
+            }
+        }
+        }
+        showdown = false;
+        while (bot.getHandValue() <= 21 && !showdown){
+            System.out.println("Bot: " + bot.printHand());
+            System.out.println("Dealer: " + dealer.printHand() + "Hidden card");
+
+            //check for 21
+            if (bot.getHandValue() == 21){
+                System.out.println("21!");
+                showdown = true;
+            }
+            else{
+            System.out.println("Hit/stand");
+            int input = bot.hitOrStand(dealer);
+            if( ( input == 1)){
+                System.out.println(bot.getCard(deck.drawCard()));
+            }
+            else if (input == 0){
                 showdown = true;
             }
         }
@@ -62,6 +86,11 @@ public class main {
         
         
 
+
+
+
+
+    scanner.close();
     }
 
 
@@ -139,7 +168,63 @@ class Bot extends abstractPlayer{
     public Bot(){
         super();
     }
+
+    public int getHardHandValue(){
+        int hardValue = 0;
+        for (Card card : hand){
+            hardValue += card.value;
+        }
+        return hardValue;
+    }
+    public int hitOrStand(Dealer dealer){
+        boolean isSoft = false;
+        int dealerValue = dealer.getHandValue();
+        int handValue = getHandValue();
+        int hardHandValue = getHardHandValue();
+
+        for (Card card : hand){
+            if (card.rank.equals("Ace") && hardHandValue == handValue){
+                isSoft = true;
+            }
+        }
+        if (isSoft){
+            return handleSoftHand(handValue, dealerValue);
+        }
+        else if(!isSoft){
+            return handleHardHand(handValue, dealerValue);
+        }
+        return 0;}
+    
+    private int handleSoftHand(int handValue, int dealerValue){
+        if (handValue >= 19){
+            return 0;
+        }
+        else if (handValue == 18){
+            return (dealerValue >= 9) ? 1 : 0; // hit on 9 10 ace
+        }
+        else{
+            return 1;
+        }
+
+    }
+    private int handleHardHand(int handValue, int dealerValue){
+        if (handValue >= 17){
+            return 0;
+        }
+        else if (handValue >= 13){
+            return (dealerValue >= 7) ? 1 : 0;
+        }
+        else if (handValue == 12){
+            return (dealerValue >= 4 && dealerValue <= 6) ? 0 : 1; // stand on 4 5 and 6
+        }
+        else{
+            return 1;
+        }
+    }
+
+
 }
+
 
 
 
