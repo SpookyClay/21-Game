@@ -4,42 +4,18 @@ import java.util.*;
 
 public class BlackJack { 
     public static void main(String[] args) {
-        final int max_players = 4;
         Scanner scanner = new Scanner(System.in);
-        Player[] players;
-        Bot[] bots;
         Dealer dealer = new Dealer();
 
-        //get a deck
+        //get a deck and shuffle
         Deck deck = new Deck();
         deck.shuffleCards();
 
-        //get rid of these
-        boolean choosing = true;
-        int x=0;
+        //create players and bots
+        int numPlayers = getNumberPlayers();
+        Player[] players= createPlayers(numPlayers);
+        Bot[] bots = createBots(numPlayers);
 
-        //choose
-        System.out.println("How many players");
-        
-        while (choosing){
-            x = scanner.nextInt();
-            if (x > max_players || x <= 0){
-                System.out.println("Error: Between 1-4 Players");
-            }
-            else{
-                System.out.println("Players:" + x + " Bots :" + (4-x));
-                choosing = false;
-            }
-        }
-        players = new Player[x];
-            for (int i = 0; i < x; i++) {
-                players[i] = new Player();
-            }
-
-            bots = new Bot[max_players - x];
-            for (int i = 0; i < bots.length; i++) {
-                bots[i] = new Bot();
-            }
     //deal cards :)
     deck = dealCards(players,bots,dealer,deck);
     //players turns
@@ -50,6 +26,43 @@ public class BlackJack {
     deck = dealerTurn(deck, dealer);
     //Check who won
     checkWon(dealer, bots, players);
+    }
+
+
+    public static Player[] createPlayers(int numPlayers){
+        Player[] players = new Player[numPlayers];
+        for (int i = 0; i < numPlayers; i++) {
+            players[i] = new Player();
+        }
+        return players;
+
+    }
+    public static Bot[] createBots(int numPlayers){
+        Bot[] bots = new Bot[numPlayers];
+        for (int i = 0; i < numPlayers; i++) {
+            bots[i] = new Bot();
+        }
+        return bots;
+
+    }
+
+    public static int getNumberPlayers(){
+        Scanner scanner = new Scanner(System.in);
+                
+        System.out.println("How many players");
+        int x;
+        int max_players = 4;
+        
+        while (true){
+            x = scanner.nextInt();
+            if (x > max_players || x <= 0){
+                System.out.println("Error: Between 1-4 Players");
+            }
+            else{
+                System.out.println("Players:" + x + " Bots :" + (4-x));
+                return x;
+            }
+        }
     }
     public static void checkWon(Dealer dealer, Bot[] bots, Player[] players){
         int dealerValue = dealer.getHandValue();
