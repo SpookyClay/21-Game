@@ -8,7 +8,7 @@ public class Deck{
 
     Map<String, Integer> deck = new HashMap<>();
 
-    
+    //constructor
     public Deck(){
     cards = new Card[52*1]; //change 1 to change number of decks
 
@@ -28,7 +28,7 @@ public class Deck{
     deck.put("King", 10);
     deck.put("Ace", 11);
 
-    //make the deck
+    //makes the deck in order
     int i =0;
     for (String suit : suits) {
         for (Map.Entry<String, Integer> cardNow : deck.entrySet()){
