@@ -1,31 +1,56 @@
 package project;
 import java.util.*;
+import java.awt.event.*;
+
 
 
 public class BlackJack { 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Dealer dealer = new Dealer();
+        
+        while(playAgain()){
+            playBlackJack();
+    }
+}
 
-        //get a deck and shuffle
+    
+
+
+
+    public static void playBlackJack(){
+        Dealer dealer = new Dealer();
+        //make deck shuffle cards
         Deck deck = new Deck();
         deck.shuffleCards();
 
-        //create players and bots
-        int numPlayers = getNumberPlayers();
-        Player[] players= createPlayers(numPlayers);
-        Bot[] bots = createBots(numPlayers);
+        int numPlayers = getNumberPlayers();;
 
-    //deal cards :)
-    deck = dealCards(players,bots,dealer,deck);
-    //players turns
-    deck = playerTurns(players, deck, dealer);
-    //bots turns
-    deck = botTurn(deck, dealer, bots);
-    //dealer turn
-    deck = dealerTurn(deck, dealer);
-    //Check who won
-    checkWon(dealer, bots, players);
+        //get a deck and shuffle
+            Player[] players= createPlayers(numPlayers);
+            Bot[] bots = createBots(numPlayers);
+
+            //deal cards :)
+            deck = dealCards(players,bots,dealer,deck);
+            //players turns
+            deck = playerTurns(players, deck, dealer);
+            //bots turns
+            deck = botTurn(deck, dealer, bots);
+            //dealer turn
+            deck = dealerTurn(deck, dealer);
+            //Check who won
+            checkWon(dealer, bots, players);
+    }
+
+    public static boolean playAgain(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Play Again? (Y/N)");
+        String answer = scanner.nextLine();
+        if (answer.toLowerCase().equals("Y")){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
 
