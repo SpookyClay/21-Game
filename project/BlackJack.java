@@ -1,14 +1,27 @@
 package project;
 import java.util.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 
 
 public class BlackJack { 
+
+
+    private JFrame mainFrame;
+    private JPanel gamePanel;
+    private JLabel dealerLabel;
+    private JLabel[] playerLabels;
+    private JLabel  statusLabel;
+    private JButton hitBUtton;
+    private JButton standButton;
+
     public static void main(String[] args) {
         
-        while(playAgain()){
+        boolean playAgain = true;
+        while(playAgain){
             playBlackJack();
+            playAgain = playAgain();
     }
 }
 
