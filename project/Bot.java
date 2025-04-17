@@ -8,7 +8,7 @@ public class Bot extends AbstractPlayer{
     public int getHardHandValue(){
         int hardValue = 0;
         for (Card card : hand){
-            hardValue += card.value;
+            hardValue += card.value; //get raw total
         }
         return hardValue;
     }
