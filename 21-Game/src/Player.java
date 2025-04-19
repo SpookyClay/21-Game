@@ -1,4 +1,4 @@
-package project;
+package src;
 
 public class Player extends AbstractPlayer {
     //Constructor

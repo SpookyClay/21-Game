@@ -1,4 +1,4 @@
-package project;
+package src;
 
 public class Card{
     public String suit;
