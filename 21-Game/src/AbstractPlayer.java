@@ -6,16 +6,15 @@ public abstract class AbstractPlayer{
 
  //Constructor
     public AbstractPlayer(){
-        this.hand = new ArrayList<Card>();
+        this.hand = new ArrayList<>();
         this.aceCount = 0;
 
 
     }
-    /*When a player hits or when recieveing cards this method is called
+    /*When a player hits or when receiving cards this method is called
     * returns the hand value*/
-    public int getCard(Card card){
+    public void getCard(Card card){
                 hand.add(card);
-                return getHandValue();
             }
     /* This method gets the hand value of a hand
     * returns an int of the hand value*/
@@ -46,7 +45,6 @@ public abstract class AbstractPlayer{
         }
 
         for (Card card : hand) { //Builds the card line by line
-            String rank = card.rank.substring(0, 1);
             String suitSymbol = getSuitSymbol(card.suit);
             String colorCode = (suitSymbol.equals("♥") || suitSymbol.equals("♦")) ? "\u001B[31m" : "\u001B[30m";
             cardLines[0].append(colorCode).append("┌─────────┐").append("\u001B[0m").append(" ");

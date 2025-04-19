@@ -29,13 +29,13 @@ public class BlackJackConsole {
         boolean playAgain = true;
         while (playAgain) {
             playBlackJack(numPlayers , numBots);
-            displayWonLost(numPlayers);
+            displayWonLost();
             playAgain = playAgain();
         }
 
     }
     //Displays number of times all players have won and lost
-    private static void displayWonLost(int numPlayers){
+    private static void displayWonLost(){
         for (int i = 0; i < roundsWon.length; i++) {
             System.out.println("Player " + (i+1) + " has won: " + roundsWon[i] +
                     " times, lost: " + roundsLost[i] +
@@ -70,13 +70,13 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
         Bot[] bots = createBots(numBots);
 
         //deal cards :)
-        gameDeck = dealCards(players, bots, dealer, gameDeck);
+        dealCards(players, bots, dealer, gameDeck);
         //players turns
-        gameDeck = playerTurns(players, gameDeck, dealer);
+        playerTurns(players, gameDeck, dealer);
         //bots turns
-        gameDeck = botTurn(gameDeck, dealer, bots);
+        botTurn(gameDeck, dealer, bots);
         //dealer turn
-        gameDeck = dealerTurn(gameDeck, dealer);
+        dealerTurn(gameDeck, dealer);
         //Check who won
         checkWon(dealer, bots, players);
     }
@@ -91,11 +91,8 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
         System.out.println("Play Again? Type Yes");
         String answer = scanner.nextLine();
         answer = answer.substring(0, 1);//in case of mistype only checks for first letter
-        if (answer.equalsIgnoreCase("y")) {
-            return true;
-        } else {
-            return false;
-        }
+        scanner.close();
+        return answer.equalsIgnoreCase("y");
 
     }
 
@@ -126,8 +123,6 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
     Gets user to input number of players playing the game
     Returns int number of player (1-4)*/
     public static int getNumberPlayers() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("How many players will be playing? (Maximum of 4 players)");
         int x;
         int max_players = 4;
@@ -153,7 +148,6 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
         int max_bots = 4 - numberPlayers;
 
         while (true) {
-            ;
             x = getIntInput();
             if (x > max_bots || x <= -1) {
                 System.out.println("Error: Between 1-" + (4 - numberPlayers) + " bots");
@@ -222,7 +216,7 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
     /*Takes in array of PLayers, array of Bots, Dealer to receive cards and Deck to hand out the cards
     Deals initial cards to all players bots and one card to dealer as he has 1 hidden card
      Returns deck as deck will be smaller than before (having the missing cards)*/
-    public static Deck dealCards(Player[] players, Bot[] bots, Dealer dealer, Deck deck) {
+    public static void dealCards(Player[] players, Bot[] bots, Dealer dealer, Deck deck) {
         System.out.println("Dealing...");
         //2 cards to each player
         for (Player player : players) {
@@ -236,7 +230,6 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
         }
         // 1 card for dealer
         dealer.getCard(deck.drawCard());//second card hidden
-        return deck;
 
     }
 
@@ -246,7 +239,7 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
     a player got blackjack or busted
     Returns modified deck as cards have been removed from it
     */
-    public static Deck playerTurns(Player[] players, Deck deck, Dealer dealer) {
+    public static void playerTurns(Player[] players, Deck deck, Dealer dealer) {
         Scanner scanner = new Scanner(System.in);
         int x = 0;
         // go through each player
@@ -293,7 +286,6 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
                 }
             }
         }
-        return deck;
     }
 
     /*Takes in bot array to have each bot draw cards, Dealer to know the dealer up card, and deck to modify
@@ -302,7 +294,7 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
     a player got blackjack or busted
     Returns modified deck as cards have been removed from it
     */
-    public static Deck botTurn(Deck deck, Dealer dealer, Bot[] bots) {
+    public static void botTurn(Deck deck, Dealer dealer, Bot[] bots) {
         int botNumber = 0;
         for (Bot bot : bots) {// for each bot in the bot array
             botNumber++;
@@ -340,15 +332,13 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
             }
 
         }
-
-        return deck;
     }
 
     /*Takes in Deck (remove cards) and Dealer (to modify its hand)
     This method plays out the dealers turn.
     Returns modified deck as cards have been removed from it
     */
-    public static Deck dealerTurn(Deck deck, Dealer dealer) {
+    public static void dealerTurn(Deck deck, Dealer dealer) {
         System.out.println("\n====Dealer's Turn=====");
         dealer.getCard(deck.drawCard()); // get second card
         System.out.println("Dealer Cards:\n" + dealer.printHand()); //show hidden card
@@ -364,9 +354,6 @@ private static void makePlayerWonLost(int numPlayers, int numBots) {
         } else if (dealer.getHandValue() > 21) { // If dealer busted
             System.out.println("\nDealer bust!");
         }
-
-
-        return deck;
     }
 
     /* Takes an integer

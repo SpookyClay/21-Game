@@ -5,7 +5,7 @@ public class Bot extends AbstractPlayer{
     public Bot(){
         super();
     }
-    //This method calculates the hard value of the hand meaning aces are woth 11
+    //This method calculates the hard value of the hand meaning aces are worth 11
     //Returns this hard value
     public int getHardHandValue(){
         int hardValue = 0;
@@ -24,17 +24,18 @@ public class Bot extends AbstractPlayer{
         int hardHandValue = getHardHandValue();
 
         for (Card card : hand){
-            if (card.rank.equals("Ace") && hardHandValue == handValue){
+            if (card.rank.equals("Ace") && hardHandValue == handValue) {
                 isSoft = true;
+                break;
             }
         }
         if (isSoft){
             return handleSoftHand(handValue, dealerValue);
         }
-        else if(!isSoft){
+        else {
             return handleHardHand(handValue, dealerValue);
         }
-        return 0;}
+    }
 
     /* The following two methods are for playing basic strategy blackjack
     * Both need the hand value and the dealer value
@@ -59,7 +60,7 @@ public class Bot extends AbstractPlayer{
             return 0;
         }
         else if (handValue >= 13){ //13 and above
-            return (dealerValue >= 7) ? 1 : 0;// hit if dealer hand is 7 and hiher
+            return (dealerValue >= 7) ? 1 : 0;// hit if dealer hand is 7 and higher
         }
         else if (handValue == 12){
             return (dealerValue >= 4 && dealerValue <= 6) ? 0 : 1; // stand on 4 5 and 6

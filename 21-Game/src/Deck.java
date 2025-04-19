@@ -5,13 +5,14 @@ public class Deck{
     Random random  = new Random();
     Card[] cards;
     Card[] oldCards;
+    public static int decks = 1;
 
     Map<String, Integer> deck = new HashMap<>();
 
     //constructor
     // This constructor makes the deck for the game
     public Deck(){
-    cards = new Card[52*1]; //change 1 to change number of decks
+    cards = new Card[52 * decks];
 
     String[] suits = {"Spades", "Hearts", "Clubs", "Diamonds"};
     //assigns string to its card value
@@ -47,7 +48,7 @@ public class Deck{
         for (int i = cards.length - 1; i > 0; i--){//For each card in the deck
             int j = random.nextInt(51);// Generates a random number in the array
             Card temp = cards[i];
-            cards[i] = cards[j];//Swaps the two cards's spots
+            cards[i] = cards[j];//Swaps the two card's spots
             cards[j] = temp;
         }
     }
@@ -57,12 +58,5 @@ public class Deck{
         Card topCard = cards[cards.length-1];
         cards = Arrays.copyOf(cards, cards.length-1);
         return topCard;
-    }
-/* Takes in no variables
-* When the user wants to make a new game it takes the old deck, shuffles it and that is the new deck
-* Returns nothing because the deck is held in this class*/
-    public void newDeck(){
-        cards = oldCards;
-        shuffleCards();
     }
 }
