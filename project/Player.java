@@ -1,8 +1,0 @@
-package project;
-
-public class Player extends AbstractPlayer {
-    //Constructor
-    public Player() {
-        super();
-    }
-}
